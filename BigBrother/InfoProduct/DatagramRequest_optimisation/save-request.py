@@ -6,7 +6,7 @@ from pprint import pprint
 
 # 1 STATUT SERVEUR
 
-db_trustbudget = MongoClient("mongodb+srv://admin:admin@test-trustbudget-xi1e0.mongodb.net/test")
+db_trustbudget = MongoClient("url_mongo_db")
 db_saverequest = db_trustbudget['save-product-data']
 
 db_champ1 = db_saverequest["product_id"]
