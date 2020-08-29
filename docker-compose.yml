@@ -1,0 +1,7 @@
+version: "3"
+services:
+ big_brother:
+  restart: always
+  build: .
+  ports:
+   - "8000:8000"

@@ -1,0 +1,86 @@
+from random import randrange
+
+class HelloWorld:
+
+    def __init__(self):
+        self.tab_users = {} 
+        self.tab_users["0"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+        self.tab_users["1"] = "Mozilla/5.0 (Amiga; U; AmigaOS 1.3; en; rv:1.8.1.19) Gecko/20081204 SeaMonkey/1.1.14"
+        self.tab_users["2"] = "Mozilla/5.0 (AmigaOS; U; AmigaOS 1.3; en-US; rv:1.8.1.21) Gecko/20090303 SeaMonkey/1.1.15"
+        self.tab_users["3"] = "Mozilla/5.0 (AmigaOS; U; AmigaOS 1.3; en; rv:1.8.1.19) Gecko/20081204 SeaMonkey/1.1.14"
+        self.tab_users["4"] = "Mozilla/5.0 (Android 2.2; Windows; U; Windows NT 6.1; en-US) AppleWebKit/533.19.4 (KHTML, like Gecko) Version/5.0.3 Safari/533.19.4"
+        self.tab_users["5"] = "Mozilla/5.0 (BeOS; U; BeOS BeBox; fr; rv:1.9) Gecko/2008052906 BonEcho/2.0"
+        self.tab_users["6"] = "Mozilla/5.0 (BeOS; U; BeOS BePC; en-US; rv:1.8.1.1) Gecko/20061220 BonEcho/2.0.0.1"
+        self.tab_users["7"] = "Mozilla/5.0 (BeOS; U; BeOS BePC; en-US; rv:1.8.1.10) Gecko/20071128 BonEcho/2.0.0.10"
+        self.tab_users["8"] = "Mozilla/5.0 (BeOS; U; BeOS BePC; en-US; rv:1.8.1.17) Gecko/20080831 BonEcho/2.0.0.17"
+        self.tab_users["9"] = "Mozilla/5.0 (BeOS; U; BeOS BePC; en-US; rv:1.8.1.6) Gecko/20070731 BonEcho/2.0.0.6"
+        self.tab_users["10"] = "Mozilla/5.0 (BeOS; U; BeOS BePC; en-US; rv:1.8.1.7) Gecko/20070917 BonEcho/2.0.0.7"
+        self.tab_users["11"] = "Mozilla/5.0 (BeOS; U; BeOS BePC; en-US; rv:1.8.1b2) Gecko/20060901 Firefox/2.0b2"
+        self.tab_users["12"] = "Mozilla/5.0 (BeOS; U; BeOS BePC; en-US; rv:1.9a1) Gecko/20051002 Firefox/1.6a1"
+        self.tab_users["13"] = "Mozilla/5.0 (BeOS; U; BeOS BePC; en-US; rv:1.9a1) Gecko/20060702 SeaMonkey/1.5a"
+        self.tab_users["14"] = "Mozilla/5.0 (BeOS; U; Haiku BePC; en-US; rv:1.8.1.10pre) Gecko/20080112 SeaMonkey/1.1.7pre"
+        self.tab_users["15"] = "Mozilla/5.0 (BeOS; U; Haiku BePC; en-US; rv:1.8.1.14) Gecko/20080429 BonEcho/2.0.0.14"
+        self.tab_users["16"] = "Mozilla/5.0 (BeOS; U; Haiku BePC; en-US; rv:1.8.1.17) Gecko/20080831 BonEcho/2.0.0.17"
+        self.tab_users["17"] = "Mozilla/5.0 (Darwin; FreeBSD 5.6; en-GB; rv:1.9.1b3pre)Gecko/20081211 K-Meleon/1.5.2"
+        self.tab_users["18"] = "Mozilla/5.0 (Future Star Technologies Corp.; Star-Blade OS; x86_64; U; en-US) iNet Browser 4.7"
+        self.tab_users["19"] = "Mozilla/5.0 (Linux 2.4.18-18.7.x i686; U) Opera 6.03 [en]"
+        self.tab_users["20"] = "Mozilla/5.0 (Linux 2.4.18-ltsp-1 i686; U) Opera 6.1 [en]"
+        self.tab_users["21"] = "Mozilla/5.0 (Linux 2.4.19-16mdk i686; U) Opera 6.11 [en]"
+        self.tab_users["22"] = "Mozilla/5.0 (Linux 2.4.21-0.13mdk i686; U) Opera 7.11 [en]"
+        self.tab_users["23"] = "Mozilla/5.0 (Linux X86; U; Debian SID; it; rv:1.9.0.1) Gecko/2008070208 Debian IceWeasel/3.0.1"
+        self.tab_users["24"] = "Mozilla/5.0 (Linux i686 ; U; en; rv:1.8.1) Gecko/20061208 Firefox/2.0.0 Opera 9.70"
+        self.tab_users["25"] = "Mozilla/5.0 (Linux i686; U; en; rv:1.8.1) Gecko/20061208 Firefox/2.0.0"
+        self.tab_users["26"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0b11pre) Gecko/20110126 Firefox/4.0b11pre"
+        self.tab_users["27"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0b8) Gecko/20100101 Firefox/4.0b8"
+        self.tab_users["28"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:9.0) Gecko/20100101 Firefox/9.0"
+        self.tab_users["29"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:9.0a2) Gecko/20111101 Firefox/9.0a2"
+        self.tab_users["30"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_8) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.68 Safari/534.24"
+        self.tab_users["31"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_8) AppleWebKit/534.31 (KHTML, like Gecko) Chrome/13.0.748.0 Safari/534.31"
+        self.tab_users["32"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_8) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.801.0 Safari/535.1"
+        self.tab_users["33"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_8) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.803.0 Safari/535.1"
+        self.tab_users["34"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_8) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11"
+        self.tab_users["35"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_8) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.151 Safari/535.19"
+        self.tab_users["36"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6) AppleWebKit/531.4 (KHTML, like Gecko) Version/4.0.3 Safari/531.4"
+        self.tab_users["37"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_0) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1200.0 Iron/21.0.1200.0 Safari/537.1"
+        self.tab_users["38"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_0) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.79 Safari/537.4"
+        self.tab_users["39"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_2) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.41 Safari/535.1"
+        self.tab_users["40"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_3) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.32 Safari/535.1"
+        self.tab_users["41"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_3) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.41 Safari/535.1"
+        self.tab_users["42"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_4) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.100 Safari/534.30"
+        self.tab_users["43"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_4) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.112 Safari/534.30"
+        self.tab_users["44"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_4) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.65 Safari/535.11"
+        self.tab_users["45"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_6) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.12 Safari/534.24"
+        self.tab_users["46"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_6) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.698.0 Safari/534.24"
+        self.tab_users["47"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_6) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.56.357 Chrome/11.0.696.71 Safari/534.24"
+        self.tab_users["48"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_6) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.112 Safari/534.30"
+        self.tab_users["49"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.68 Safari/534.24"
+        self.tab_users["50"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) Iron/11.0.700.2 Chrome/11.0.700.2 Safari/534.24"
+        self.tab_users["51"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.56.283"
+        self.tab_users["52"] = "Mozilla/5.0 (compatible; Konqueror/3.1; i686 Linux; 20020811)"
+        self.tab_users["53"] = "Mozilla/5.0 (compatible; Konqueror/3.1; i686 Linux; 20020817)"
+        self.tab_users["54"] = "Mozilla/5.0 (compatible; Konqueror/3.1; i686 Linux; 20020913)"
+        self.tab_users["55"] = "Mozilla/5.0 (compatible; Konqueror/3.1; i686 Linux; 20020928)"
+        self.tab_users["56"] = "Mozilla/5.0 (compatible; Konqueror/3.1; i686 Linux; 20021001)"
+        self.tab_users["57"] = "Mozilla/5.0 (compatible; Konqueror/3.1; i686 Linux; 20021006)"
+        self.tab_users["58"] = "Mozilla/5.0 (compatible; Konqueror/3.1; i686 Linux; 20021007)"
+        self.tab_users["59"] = "Mozilla/5.0 (compatible; Konqueror/3.1; i686 Linux; 20021027)"
+        self.tab_users["60"] = "Mozilla/5.0 (compatible; Konqueror/3.1; i686 Linux; 20021102)"
+        self.tab_users["61"] = "Mozilla/5.0 (compatible; Konqueror/3.1; i686 Linux; 20021103)"
+        self.tab_users["62"] = "Mozilla/5.0 (compatible; Konqueror/3.1; i686 Linux; 20021105)"
+        self.tab_users["63"] = "Mozilla/5.0 (compatible; Konqueror/3.1; i686 Linux; 20021106)"
+        self.tab_users["64"] = "Mozilla/5.0 (compatible; Konqueror/3.1; i686 Linux; 20021113)"
+        self.tab_users["65"] = "Mozilla/5.0 (compatible; Konqueror/3.1; i686 Linux; 20021128)"
+        self.tab_users["66"] = "Mozilla/5.0 (compatible; Konqueror/3.2; FreeBSD) (KHTML, like Gecko)"
+        self.tab_users["67"] = "Mozilla/5.0 (compatible; Konqueror/3.2; Linux 2.6.2) (KHTML, like Gecko)"
+        self.tab_users["68"] = "Mozilla/5.0 (compatible; Konqueror/3.2; Linux) (KHTML, like Gecko)"
+        self.tab_users["69"] = "Mozilla/5.0 (compatible; Konqueror/3.2; Linux; X11; en_US) (KHTML, like Gecko)"
+        
+
+    def choose_random_user(self):
+        index = randrange(15)
+        string_index = str(index)
+        print("je suis la")
+        print(string_index)
+        print(self.tab_users[string_index])
+        return_value = self.tab_users[string_index]
+        return (return_value)

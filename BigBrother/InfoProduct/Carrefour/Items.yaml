@@ -1,0 +1,452 @@
+---
+swagger: "2.0"
+info:
+  x-ibm-name: openapi-items
+  title: Items
+  version: 1.0.0
+  description: "This API allows you to do general information searches on the item
+    merchandising referential based on different criteria.\n\n\n\nAn item can be a
+    single item or a package of items (for instance a package of 4 X 1.5L bottles
+    of water). \n\nThe information provided for an item are:\n* the GTIN code (usual
+    GS1 international EAN 13 Barcode),\n* the description of the item,\n* the brand
+    of the item, \n* the capacity details: number of items in the package (4 for 4
+    packaged bottles), measurement unit (liter, gram…),  and volume according to the
+    measurement unit (6 for 6 liters for 4 bottles of 1.5 liter), for one item or
+    the packaged item.\n* The category merchandise structure, identifying the sub
+    categories the item belongs to, according to store formats (hypermarket, supermarket
+    and “Huit à Huit” and “Shopi” both “proxy” / convenience store formats)."
+  contact:
+    name: Support API
+    email: support_API@carrefour.com
+schemes:
+- https
+host: preprod-api.fr.carrefour.io
+basePath: /v1/openapi
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  client_secret:
+    type: apiKey
+    description: ""
+    in: header
+    name: X-IBM-Client-Secret
+  client_id:
+    type: apiKey
+    in: header
+    name: X-IBM-Client-Id
+security:
+- client_id: []
+  client_secret: []
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  phase: realized
+paths:
+  /items:
+    post:
+      responses:
+        200:
+          description: Stores found
+          schema:
+            $ref: '#/definitions/Items'
+        204:
+          description: No item found for this search
+          schema:
+            type: string
+        400:
+          description: The request content was malformed
+          schema:
+            $ref: '#/definitions/Error'
+        405:
+          description: A request was made of a resource using a request method not
+            supported by that resource
+          schema:
+            $ref: '#/definitions/Error'
+        406:
+          description: 'Resource representation is only available with these Content-Types:
+            application/json; charset=UTF-8'
+          schema:
+            $ref: '#/definitions/Error'
+        415:
+          description: 'There was a problem with the request Content-Tyype: Expected
+            ''application/json'''
+          schema:
+            $ref: '#/definitions/Error'
+      parameters:
+      - name: body
+        required: true
+        in: body
+        schema:
+          $ref: '#/definitions/Request'
+        description: Request
+      description: '2 types of searches are available:   * “filtered” search where
+        you must input the exact value you are looking for. * “full-text” search that
+        allows you to search from an incomplete string (ex:”sam” for “Samsung”). Note
+        that for instance “amsung” would give any result.  The full-text search can
+        be performed by creating queries in an array. Each element restrains the result.
+        A query applies on a field and a query content.  Example: "queries": [{"field":"barcodeDescription",
+        "query": "nutella"}   Full-text search mode is only available when searching
+        from the following fields  * brand: “brandDescription” * description: “itemDescription”
+        * or on both at the same time: “barcodeDescription”  Filtered searches can
+        be applied to the request, and the results found must have the exact value
+        for the attribute the filter applies on. For example, in order to search for
+        items for breakfast, you can apply the filter that only takes items on a specific
+        merchandise category in hypermakets:  "filters":[{"field": "structHyp.hypGrpClassKey",
+        "keys": ["140"]}].\n Fields that filters can apply on: * barcode = gtin *
+        prdCapaVolume = capacity_volume * prdCapaFactor = capacity_factor  * prdCapaType
+        = capacity_unit * brandDesc = brand * itemDesc = description * itemDesc18
+        = name * and for filters on the structure, use “structHyp.field_to_filter”'
+      summary: Search for items
+      tags:
+      - ITEMS
+  /items/{gtin}:
+    get:
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Item'
+        400:
+          description: The request content was malformed
+          schema:
+            $ref: '#/definitions/Error'
+        404:
+          description: The targeted resource does not exist
+          schema:
+            $ref: '#/definitions/Error'
+        405:
+          description: A request was made of a resource using a request method not
+            supported by that resource
+          schema:
+            $ref: '#/definitions/Error'
+        406:
+          description: 'Resource representation is only available with these Content-Types:
+            application/json; charset=UTF-8'
+          schema:
+            $ref: '#/definitions/Error'
+        415:
+          description: 'There was a problem with the request Content-Tyype: Expected
+            ''application/json'''
+          schema:
+            $ref: '#/definitions/Error'
+      description: Get information on a item based on its GTIN code.
+      tags:
+      - ITEM
+      summary: Get information on a item based on its GTIN code
+    parameters:
+    - name: gtin
+      type: string
+      required: true
+      in: path
+      description: GTIN of the item. The GTIN code can be an EAN-13, EAN-7 or EAN-8.
+definitions:
+  Filter:
+    properties:
+      keys:
+        items:
+          type: string
+        description: Array of values (string or other)
+        example: '[''140'']'
+        type: array
+      field:
+        type: string
+        description: Field to apply the filter on
+        example: structHyp.hypGrpClassKey
+    additionalProperties: false
+    description: Filter criterion
+  Filters:
+    description: Filter criteria
+    type: array
+    items:
+      $ref: '#/definitions/Filter'
+  Query:
+    properties:
+      query:
+        type: string
+        description: Query value
+        example: nutell
+      field:
+        type: string
+        description: Field to apply the query on
+        example: barcodeDescription
+    additionalProperties: false
+  Queries:
+    type: array
+    items:
+      $ref: '#/definitions/Query'
+  Request:
+    properties:
+      filters:
+        description: Filtered search
+        $ref: '#/definitions/Filters'
+      queries:
+        description: Query search
+        $ref: '#/definitions/Queries'
+    additionalProperties: false
+  Array of items:
+    type: array
+    items:
+      $ref: '#/definitions/Item'
+  Items:
+    type: object
+    description: Array of items
+    properties:
+      list:
+        description: List of items
+        $ref: '#/definitions/Array of items'
+      found:
+        type: integer
+        description: Number of elements found (without the limitation)
+        format: int32
+        example: 5
+  Error:
+    properties:
+      more_information:
+        type: string
+        description: More information about the error
+        example: Contact the administrator
+      http_code:
+        type: string
+        description: Error code
+        example: "500"
+      http_message:
+        type: string
+        example: Server error
+        description: Error message
+    additionalProperties: false
+    description: Error returned by the API
+  Item:
+    type: object
+    description: Barcode document of the indexed record, this is a subset of fields
+      that we can guarantee and may be extended in the future.
+    properties:
+      name:
+        type: string
+        example: 780G NUTELLA
+        description: Name of the product
+      gtin:
+        type: string
+        description: Item GS1’s GTIN usual 13 digits barcode
+        example: "3017624047813"
+      description:
+        type: string
+        description: Item description
+        example: POT 780G NUTELLA
+      brand:
+        type: string
+        description: Brand name
+        example: NUTELLA
+      capacity_unit:
+        type: string
+        description: Unit of measurement
+        example: KG
+      capacity_volume:
+        type: number
+        description: Volume (total volume in case of item package)
+        format: double
+      capacity_factor:
+        type: integer
+        description: Number of items (in a package)
+        example: 1
+      category_structures:
+        $ref: '#/definitions/Structure'
+        description: Structure categories
+  Structure:
+    type: object
+    description: 'Structure for 3 formats: HYPERMARKETS, SUPERMARKETS, PROXIMITY STORES'
+    properties:
+      hyper:
+        description: Hyper
+        $ref: '#/definitions/Hyper'
+      super:
+        $ref: '#/definitions/Super'
+        description: Super
+      proxy:
+        $ref: '#/definitions/Proxy'
+        description: Proxy
+  Hyper:
+    type: object
+    description: Hyper category
+    properties:
+      hypSectorKey:
+        type: string
+        description: Sector key of a hyper
+        example: 1
+      hypSectorDesc:
+        type: string
+        description: Sector description of a hyper
+        example: PGC
+      hypDepartmentKey:
+        type: string
+        description: Department key of a hyper
+        example: "14"
+      hypDepartmentDesc:
+        type: string
+        description: Department description of a hyper
+        example: EPICERIE
+      hypClassKey:
+        type: string
+        description: Class key of a hyper
+        example: "1404"
+      hypClassDesc:
+        type: string
+        description: Class description of a hyper
+        example: PATES A TARTINER
+      hypGrpClassKey:
+        type: string
+        description: Group class key of a hyper
+        example: "140"
+      hypGrpClassDesc:
+        type: string
+        description: Group class description of a hyper
+        example: PDTS POUR PETITS DEJEUNERS
+      hypSubClassKey:
+        type: string
+        description: Sub-class key of a hyper
+        example: "14040"
+      hypSubClassDesc:
+        type: string
+        description: Sub-class description of a hyper
+        example: PATE A TARTINER
+      hypUbKey:
+        type: string
+        description: Need unit key of a hyper
+        example: "1404002"
+      hypUbDesc:
+        type: string
+        description: Need unit description of a hyper
+        example: PATE A TARTINER > 500G
+  Super:
+    type: object
+    description: Super category
+    properties:
+      supSectorKey:
+        type: string
+        description: Sector key of a super
+        example: 1
+      supSectorDesc:
+        type: string
+        description: Sector description of a super
+        example: DENREES NON PERISSABLES
+      supDepartmentKey:
+        type: string
+        description: Department key of a super
+        example: "01"
+      supDepartmentDesc:
+        type: string
+        description: Department description of a super
+        example: EPICERIE
+      supClassKey:
+        type: string
+        description: Class key of a super
+        example: "120"
+      supClassDesc:
+        type: string
+        description: Class description of a super
+        example: CONFITURES
+      supGrpClassKey:
+        type: string
+        description: Group class key of a super
+        example: "120"
+      supGrpClassDesc:
+        type: string
+        description: Group class description of a super
+        example: CONFITURES
+      supSubClassKey:
+        type: string
+        description: Sub-class key of a super
+        example: "120005"
+      supSubClassDesc:
+        type: string
+        description: Sub-class description of a super
+        example: PATES A TARTINER
+      supUbKey:
+        type: string
+        description: Need unit key of a super
+        example: "12000501"
+      supUbDesc:
+        type: string
+        description: Need unit description of a super
+        example: PATES A TARTINER
+  Proxy:
+    type: object
+    description: Proxy category
+    properties:
+      prxShoSectorKey:
+        type: string
+        description: Sector key of a Proxy Shopi
+        example: "01"
+      prxShoSectorDesc:
+        type: string
+        description: Sector description of a Proxy Shopi
+        example: P. G. C.
+      prxHahSectorKey:
+        type: string
+        description: Sector key of a Proxy Huit a Huit
+        example: "01"
+      prxHahSectorDesc:
+        type: string
+        description: Sector description of a Proxy Huit a Huit
+        example: EPICERIE
+      prxShoDepartmentKey:
+        type: string
+        description: Department key of a Proxy Shopi
+        example: "01"
+      prxShoDepartmentDesc:
+        type: string
+        description: Department description of a Proxy Shopi
+        example: EPICERIE
+      prxHahDepartmentKey:
+        type: string
+        description: Department key of a Proxy Huit a Huit
+        example: "01"
+      prxHahDepartmentDesc:
+        type: string
+        description: Department description of a Proxy Huit a Huit
+        example: EPICERIE
+      prxClassKey:
+        type: string
+        description: Class key of a Proxy
+        example: "232"
+      prxClassDesc:
+        type: string
+        description: Class description of a Proxy
+        example: CONFIT. PATES A TARTINER MIEL
+      prxGrpClassKey:
+        type: string
+        description: Group class key of a Proxy
+        example: "027"
+      prxGrpClassDesc:
+        type: string
+        description: Group class description of a Proxy
+        example: CONFITURE/P.A.T./MIEL
+      prxSubClassKey:
+        type: string
+        description: Sub-class key of a Proxy
+        example: "232006"
+      prxSubClassDesc:
+        type: string
+        description: Sub-class description of a Proxy
+        example: PATE A TARTINER
+      prxUbKey:
+        type: string
+        description: Need unit key of a Proxy
+        example: "23200632"
+      prxUbDesc:
+        type: string
+        description: Need unit description of a Proxy
+        example: PATE A TARTINER NOISET.>500G
+tags:
+- name: ITEM
+  description: Information for a specific item
+- name: ITEMS
+  description: Search for items
+x-ibm-endpoints:
+- endpointUrl: https://api.fr.carrefour.io
+  description: Custom Gateway API Endpoint
+  type:
+  - production
+  - development
+...

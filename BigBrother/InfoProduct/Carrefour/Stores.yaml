@@ -1,0 +1,297 @@
+---
+swagger: "2.0"
+info:
+  x-ibm-name: openapi-stores
+  title: Stores
+  version: 1.0.0
+  contact:
+    name: Support API
+    email: support_API@carrefour.com
+  description: "The Store API allows you to access to Carrefour’s stores details regarding
+    the concept of “physical store” (for France only) represented by a sale surface
+    (merchandises and services), open to the public. Hypermarkets, Supermarkets, convenience
+    stores (called “proxy”), and cash & carry stores are covered. \nThis API can localize
+    stores around a GPS position (latitude, longitude, radius) or with the name of
+    the city the stores is located in. Finally, more information on a store can be
+    retrieved when using the specific GLN code of the store."
+  termsOfService: ""
+  license:
+    name: ""
+schemes:
+- https
+host: api.fr.carrefour.io
+basePath: /v1/openapi
+produces:
+- application/json
+securityDefinitions:
+  clientIdHeader:
+    type: apiKey
+    in: header
+    name: X-IBM-Client-Id
+  clientSecretHeader:
+    type: apiKey
+    in: header
+    name: X-IBM-Client-Secret
+security:
+- clientIdHeader: []
+  clientSecretHeader: []
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  phase: realized
+paths:
+  /stores:
+    get:
+      responses:
+        200:
+          description: Stores found
+          schema:
+            $ref: '#/definitions/Stores'
+        204:
+          description: No store found for this search
+          schema:
+            type: string
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error
+          schema:
+            $ref: '#/definitions/Error'
+      parameters:
+      - name: longitude
+        type: number
+        required: true
+        in: query
+        format: double
+        description: Longitude to search around. Must be used with latitude and radius.
+      - name: latitude
+        type: number
+        required: true
+        in: query
+        format: double
+        description: Latitude to search around.Must be used with longitude and radius.
+      - name: radius
+        type: integer
+        required: true
+        in: query
+        format: int32
+        description: Distance in meters to search within. Must be used with latitude
+          and longitude.
+      - name: format
+        type: string
+        required: false
+        in: query
+        description: 'Format of the store: HYP (for hypermarkets), SUP (for supermarkets),  PRX
+          (for proximity stores), or CAC (cash and carry stores, named Promocash -
+          only when searching with a city name).'
+      - name: city
+        type: string
+        required: true
+        in: query
+        description: City name the stores belongs to. Can also be a subset of the
+          city name. Must be at least 3 characters.
+      - name: limit
+        type: integer
+        required: false
+        in: query
+        format: int32
+        description: Limits the number of results returned.
+      tags:
+      - STORES
+      summary: List of stores
+      description: 'The Stores endpoint returns a list of Carrefour’s stores according
+        to the input parameters defining the location to search around. You can either
+        search with a city name (even a subset of the name) or with GPS coordinates.
+        It is possible to filter the result with the format of the store (hypermarket,
+        supermarket, proximity stores, cash and carry stores) and you can limit the
+        number of stores returned. When searching with GPS coordinates, the latitude,
+        longitude and radius are mandatory.  It is not possible to search for a city
+        and by GPS coordinates on the same request. Warning : Cash & carry stores
+        are only available when searching for a city.'
+  /stores/{gln}:
+    get:
+      responses:
+        200:
+          description: Store found
+          schema:
+            $ref: '#/definitions/Store'
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error
+          schema:
+            $ref: '#/definitions/Error'
+      tags:
+      - STORE
+      summary: Store information
+      description: The Stores endpoint returns information about Carrefour’s stores
+        such as name, adress, opening hours, etc… The expected GLN code must be the
+        legal entity's.
+    parameters:
+    - name: gln
+      type: string
+      required: true
+      in: path
+      description: GLN of the store on 13 digits. It's a unique identifier provided
+        by GS1 to identify a specific business location. Here, use the legal entity's
+        GLN.
+definitions:
+  List of stores:
+    description: List of stores
+    type: array
+    items:
+      $ref: '#/definitions/Store'
+  Stores:
+    properties:
+      list:
+        description: List of stores
+        $ref: '#/definitions/List of stores'
+      found:
+        type: integer
+        description: Number of results found (not limited by the limit)
+        format: int32
+        example: 5
+    additionalProperties: false
+  Hours:
+    properties:
+      day:
+        type: string
+        example: monday
+        description: Day of the hours following
+      end:
+        type: string
+        example: 20H00
+        description: Closes at
+      begin:
+        type: string
+        example: 08H30
+        description: Opens at
+    additionalProperties: false
+    description: Opening hours for one day
+  Opening hours:
+    type: array
+    items:
+      $ref: '#/definitions/Hours'
+    description: Opening hours array
+  Contact information:
+    properties:
+      fax:
+        type: string
+        example: 01 69 20 42 57
+        description: Fax number
+      email:
+        type: string
+        example: massy@franchise.cmarket.fr
+        description: E-mail
+      phone:
+        type: string
+        example: 01 69 20 10 10
+        description: Phone number of the store
+      name:
+        type: string
+        example: Yannick EUZENAT
+        description: Name of the contact
+      role:
+        type: string
+        example: Your_store_manager
+        description: Role of the contact
+    additionalProperties: false
+  Store:
+    additionalProperties: true
+    properties:
+      additional_address:
+        type: string
+        description: Additional address of the store
+        example: Cc Les Franciades
+      address:
+        type: string
+        description: Address of the store
+        example: 2 Place De France
+      banner:
+        type: string
+        example: CARREFOUR MARKET
+        description: Banner of the store
+      city:
+        type: string
+        example: Massy
+        description: City of the store
+      contact:
+        additionalProperties: true
+        type: object
+        description: Contact information
+      drive:
+        type: string
+        example: "0"
+        description: Indicates if the store has a Carrefour Drive attached.
+      format:
+        type: string
+        example: SUPER
+        description: Format of the store
+      gas_station:
+        type: string
+        example: "1"
+        description: Indicates if the store has a Carrefour gas station nearby.
+      gln:
+        type: string
+        example: "3020180044301"
+        description: Store's unique identifier, provided by GS1, corresponding to
+          the code of the legal entity.
+      latitude:
+        exclusiveMaximum: false
+        exclusiveMinimum: false
+        type: number
+        description: Latitude of the store
+      longitude:
+        exclusiveMaximum: false
+        exclusiveMinimum: false
+        type: number
+        description: Longitude of the store
+      main_url:
+        type: string
+        example: magasin/market-massy
+        description: URL of the store on carrefour.fr website
+      name:
+        type: string
+        example: Market Massy
+        description: Name of the store
+      usual_opening_hours:
+        additionalProperties: true
+        type: object
+        description: Normal opening hours of the store.
+      zip_code:
+        type: string
+        example: "91300"
+        description: Zip code of the store
+    type: object
+  Error:
+    properties:
+      more_information:
+        type: string
+        description: More information about the error
+        example: Contact the administrator
+      http_code:
+        type: string
+        description: Error code
+        example: "500"
+      http_message:
+        type: string
+        example: Server error
+        description: Error message
+    additionalProperties: false
+    description: Error returned by the API
+tags:
+- name: STORE
+  description: API used to retrieve specific store information
+- name: STORES
+  description: API used to identify Carrefour Stores
+x-ibm-endpoints:
+- endpointUrl: https://api.fr.carrefour.io
+  description: Custom Gateway API Endpoint
+  type:
+  - production
+  - development
+...
