@@ -10,8 +10,8 @@ class BasketParser:
     DATA_FRAME = None
 
     def __init__(self, data):
-        self.client_mongo = pymongo.MongoClient('193.70.89.169', 27017, username="lucasO", password="k[NWun695msH")
-        self.client_mongo = self.client_mongo['TrustBudget']
+        self.client_mongo = pymongo.MongoClient()
+        self.client_mongo = self.client_mongo[]
         self.data = data
         self.data_dict = {
             self.DATASET_COLUMN[0]: [int(float(data["amount"]))],
