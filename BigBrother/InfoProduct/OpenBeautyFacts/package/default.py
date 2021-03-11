@@ -1,2 +1,2 @@
-USERNAME = "trustbudget"
-PASSWORD = "ILOVEGIRLS"
+USERNAME = ""
+PASSWORD = ""
