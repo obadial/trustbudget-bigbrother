@@ -1,0 +1,77 @@
+*.pyc
+*~
+.DS_Store
+.bo
+.dev
+.front
+.coverage*
+.idea
+.idea/*
+.idea/deployment.xml
+.preprod
+.prod
+.q
+.slash
+.staging
+.staging2
+.ws
+.vscode
+.history
+*/us_migrations*
+build/
+kalliste
+kalliste/
+node_modules/
+venv/
+.cache
+bm_test_results.xml
+export_orders_*
+celerybeat-schedule
+celerybeat.pid
+datavolume/
+/lokalise*
+my_db/
+
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/config.yml
+!.elasticbeanstalk/*.global.yml
+
+log/
+
+coverage_html/
+htmlcov/
+
+my_db/
+pre-commit.sh
+
+# files generated during tests
+test_media/
+test_static/
+
+# Ignore nix environment files as nix is not an officially supported environment by us
+# This way we don't restrict people from working with Nix, but it's up to their responsibility.
+*.nix
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+
+# local-db
+*.db

@@ -31,32 +31,13 @@ Pip3 *[Installer Pip3](https://stackoverflow.com/questions/6587507/how-to-instal
 
 *A la racine du dossier, executer `sudo pip3 install -r requirements.txt`*
     
-#### Client:
 
-##### Requis:
-
-NodeJs & npm *[Comment installer ?](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-16-04)*
-
-###### (Ensuite)
-
-*Se rendre dans le dossier client*
-
-*`sudo npm install package.json`*
-
-
----
-
-### Tester le client et le serveur
+### Tester le serveur
 
 #### Serveur :
 
-`Python3 flask_serveur.py`
+`Python3 http_serveur.py`
     
-#### Client :
-
-`node client.js`
-    
-**!!! Pour tester il est important de lancer le serveur avant le client, sinon cela ne marchera pas!!!**
 
 
 
