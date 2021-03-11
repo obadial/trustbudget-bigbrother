@@ -13,7 +13,7 @@
 [3]: <https://fr.openfoodfacts.org/> "OpenFactFood"
 [4]: <https://github.com/miguelgrinberg/Flask-SocketIO> "FlaskSocketIO"
 
-**!!! Pour Datagram, seul 15 requêtes par jours sont gratuites. Par défault c'est la clé d'utilisation de Lucas qui est utilisée, si vous vous enregistrez sur Datagram, vous pouvez aussi obtenir la votre et avoir 15 requetes gratuites !!!**
+**!!! Pour Datagram, seul 15 requêtes par jours sont gratuites !!!**
 
 ---
 
